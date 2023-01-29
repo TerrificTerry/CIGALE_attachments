@@ -12,4 +12,4 @@ Attachments that make Code Investigating GALactic Emission easier to use
 3 Then, you can run the GUI application with
 `python GUI_CIGALE.py`  
 
-4 For further information, visit https://cigale.lam.fr
+4 For further information, visit https://cigale.lam.fr.
