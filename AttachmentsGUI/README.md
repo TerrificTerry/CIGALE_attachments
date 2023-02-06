@@ -2,7 +2,7 @@
 
 _Using the customtkinter and tkinter package._
 To use this application,  
-Please predownload cigale, and run 
+Please predownload cigale, open the (ana)conda environment and run 
 `pcigale -h`
 in the terminal to see that the download works all right.
 
