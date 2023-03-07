@@ -52,6 +52,8 @@ casey2012tar = ["     temperature ", "    beta ", "    alpha "]
 fritz2006tar = ["    r_ratio ", "    tau ", "    beta ", "    gamma ", "    opening_angle ", "    psy ", "    disk_type ", "    fracAGN "]
 skirtor2016tar = ["    t ", "    pl ", "    q ", "    oa ", "    R ", "    i ", "    disk_type ", "    fracAGN "]
 
+my_dict = {"sfhdelayed": sfhdelayed, "sfh2exp": sfh2exp, "sfhperiodic": sfhperiodic, "bc03": bc03, "m2005": m2005, "nebular": nebular, "dustatt_modified_starburst":dustatt, "dustatt_modified_CF00":dustattCF, "dale2014": dale2014, "dl2014": dl2014, "casey2012": casey2012, "fritz2006": fritz2006, "skirtor2016": skirtor2016}
+
 def select_folder():
     folder_path = filedialog.askdirectory()
     global diradr
@@ -70,6 +72,9 @@ def modify_ini(diradr, targetvar, pvalues):
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
+        
+        def error():
+            print("Not available yet.")
         
         def savepara(model):
             print("save parameters of " + model)
@@ -100,8 +105,7 @@ class App(customtkinter.CTk):
             elif model == "fritz2006":
                 fritz2006 = [self.entryFritz1.get(), self.entryFritz2.get(), self.entryFritz3.get(), self.entryFritz4.get(), self.entryFritz5.get(), self.entryFritz6.get(), self.entryFritz7.get(), self.entryFritz8.get()]
             elif model == "skirtor2016":
-                skirtor2016 = [self.entrySkirtor1.get(), self.entrySkirtor2.get(), self.entrySkirtor3.get(), self.entrySkirtor4.get(), self.entrySkirtor5.get(), self.entrySkirtor6.get(), self.entrySkirtor7.get(), self.entrySkirtor8.get()]
-            
+                skirtor2016 = [self.entrySkirtor1.get(), self.entrySkirtor2.get(), self.entrySkirtor3.get(), self.entrySkirtor4.get(), self.entrySkirtor5.get(), self.entrySkirtor6.get(), self.entrySkirtor7.get(), self.entrySkirtor8.get()]  
               
         def mkini(diradr):
             global SFHsel, STPsel, NEsel, ATLsel, DEsel, AGNsel
@@ -115,12 +119,12 @@ class App(customtkinter.CTk):
             inifile.write(inifiletxt)
               
         def showTerm():
-            global sfhdelayed, sfh2exp, sfhperiodic, bc03, m2005, nebular, dustatt, dustattCF, dale2014, dl2014, casey2012, fritz2006, skirtor2016;
+            global sfhdelayed, sfh2exp, sfhperiodic, bc03, m2005, nebular, dustatt, dustattCF, dale2014, dl2014, casey2012, fritz2006, skirtor2016
             global SFHsel, STPsel, NEsel, ATLsel, DEsel, AGNsel
             modellist = [SFHsel, STPsel, NEsel, ATLsel, DEsel, AGNsel]
             for model in modellist:
                 print(model+":")
-                for para in vars(model):  #transfer string to variable here---->#
+                for para in my_dict[model]:
                     print(para)
         
         def modi(modeltar, model):
@@ -506,20 +510,20 @@ class App(customtkinter.CTk):
         
         # self.radio_button_2 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=1)
         # self.radio_button_2.grid(row=2, column=2, pady=10, padx=20, sticky="n")
-        self.radio_button_3 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=2)
-        self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
+        # self.radio_button_3 = customtkinter.CTkRadioButton(master=self.radiobutton_frame, variable=self.radio_var, value=2)
+        # self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
 
         # create checkbox and switch frame
         self.checkbox_slider_frame = customtkinter.CTkFrame(self)
         self.checkbox_slider_frame.grid(row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
-        self.checkbox_1 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        self.checkbox_1.grid(row=1, column=0, pady=(20, 10), padx=20, sticky="n")
-        self.checkbox_2 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
-        self.checkbox_2.grid(row=2, column=0, pady=10, padx=20, sticky="n")
-        self.switch_1 = customtkinter.CTkSwitch(master=self.checkbox_slider_frame, command=lambda: print("switch 1 toggle"))
-        self.switch_1.grid(row=3, column=0, pady=10, padx=20, sticky="n")
-        self.switch_2 = customtkinter.CTkSwitch(master=self.checkbox_slider_frame)
-        self.switch_2.grid(row=4, column=0, pady=(10, 20), padx=20, sticky="n")
+        self.checkbutton_1 = customtkinter.CTkButton(self.radiobutton_frame, text="Mock Mode", command=lambda:error)
+        self.checkbutton_1.grid(row=2, column=2, pady=(20, 10), padx=20, sticky="n")
+        # self.checkbox_2 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
+        # self.checkbox_2.grid(row=2, column=0, pady=10, padx=20, sticky="n")
+        # self.switch_1 = customtkinter.CTkSwitch(master=self.checkbox_slider_frame, command=lambda: print("switch 1 toggle"))
+        # self.switch_1.grid(row=3, column=0, pady=10, padx=20, sticky="n")
+        # self.switch_2 = customtkinter.CTkSwitch(master=self.checkbox_slider_frame)
+        # self.switch_2.grid(row=4, column=0, pady=(10, 20), padx=20, sticky="n")
 
         # create slider and progressbar frame
         # self.slider_progressbar_frame = customtkinter.CTkFrame(self, fg_color="transparent")
@@ -542,16 +546,16 @@ class App(customtkinter.CTk):
         # set default values
         self.sidebar_button_1.configure(text="Add Folder...")
         self.sidebar_button_2.configure(text="Configure Input")
-        self.sidebar_button_3.configure(state="disabled", text="Mock Mode")
+        self.sidebar_button_3.configure(text="Preprocess Data")
         self.sidebar_button_4.configure(text="Apply Values")
         self.sidebar_button_5.configure(text="Confirm and RUN")
     
-        self.checkbox_2.configure(state="disabled")
-        self.switch_2.configure(state="disabled")
-        self.checkbox_1.select()
-        self.switch_1.select()
+        # self.checkbox_2.configure(state="disabled")
+        # self.switch_2.configure(state="disabled")
+        self.checkbutton_1.configure(state="disabled")
+        # self.switch_1.select()
         # self.radio_button_2.configure(state="disabled")
-        self.radio_button_3.configure(state="disabled")
+        # self.radio_button_3.configure(state="disabled")
         self.appearance_mode_optionemenu.set("Light")
         self.scaling_optionemenu.set("100%")
         # self.optionmenu_1.set("CTkOptionmenu")
