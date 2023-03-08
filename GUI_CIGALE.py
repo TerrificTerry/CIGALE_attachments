@@ -2,10 +2,13 @@ import tkinter
 import tkinter.messagebox
 import customtkinter
 import io
+import subprocess
 # import webbrowser
 from customtkinter import filedialog
 from Execution import AttachmentsG
 from Execution import AttachmentsR
+from Execution import Preprocess
+from Execution import Extinctioncorr
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -186,7 +189,10 @@ class App(customtkinter.CTk):
                 modi(fritz2006tar, fritz2006)
             elif AGNsel == "skirtor2016":
                 modi(skirtor2016tar, skirtor2016)
-    
+
+        def gotoDataprocess():
+            subprocess.run(["cmd.exe", "/C", "python Dataprocess.py"])
+        
         # configure window
         self.title("Attachments for CIGALE (version 22.10.1)")
         self.geometry(f"{1470}x{810}")
@@ -198,8 +204,8 @@ class App(customtkinter.CTk):
 
         # create sidebar frame with widgets
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
-        self.sidebar_frame.grid(row=0, column=0, rowspan=6, sticky="nsew")
-        self.sidebar_frame.grid_rowconfigure(6, weight=1)
+        self.sidebar_frame.grid(row=0, column=0, rowspan=10, sticky="nsew")
+        self.sidebar_frame.grid_rowconfigure(10, weight=1)
         self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="CIGALE_ATT", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.linktoCIGALE = customtkinter.CTkLabel(self, text="More info about cigale, visit https://cigale.lam.fr/.", font=customtkinter.CTkFont(size=15))
@@ -210,30 +216,31 @@ class App(customtkinter.CTk):
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame, command=lambda:configInput())
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, command=lambda:savepara("model"))
+        self.sidebar_button_3 = customtkinter.CTkButton(self.sidebar_frame, fg_color="#006400", command=lambda:gotoDataprocess())
         self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
-        self.sidebar_button_4 = customtkinter.CTkButton(self.sidebar_frame, command = lambda:applypara())
+        self.sidebar_button_4 = customtkinter.CTkButton(self.sidebar_frame, fg_color="#006400", command = lambda:applypara())
         self.sidebar_button_4.grid(row=4, column=0, padx=20, pady=10)
-        self.sidebar_button_5 = customtkinter.CTkButton(self.sidebar_frame, command = lambda:AttachmentsR.pcigale_run(diradr, anaconda_adr))
-        self.sidebar_button_5.grid(row=5, column=0, padx=20, pady=10)
-        self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
-        self.appearance_mode_label.grid(row=7, column=0, padx=20, pady=(100, 0))
+        self.sidebar_button_5 = customtkinter.CTkButton(self.sidebar_frame, fg_color="#ff0000", command = lambda:AttachmentsR.pcigale_run(diradr, anaconda_adr))
+        self.sidebar_button_5.grid(row=5, column=0, padx=(20,20), pady=(10,0))
+        self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:")
+        self.appearance_mode_label.grid(row=6, column=0, padx=20, pady=(60, 0))
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Light", "Dark", "System"],
                                                                        command=self.change_appearance_mode_event)
-        self.appearance_mode_optionemenu.grid(row=8, column=0, padx=20, pady=(0, 10))
-        self.scaling_label = customtkinter.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
-        self.scaling_label.grid(row=9, column=0, padx=20, pady=(10, 0))
+        self.appearance_mode_optionemenu.grid(row=7, column=0, padx=20, pady=(0, 10))
+        self.scaling_label = customtkinter.CTkLabel(self.sidebar_frame, text="UI Scaling:")
+        self.scaling_label.grid(row=8, column=0, padx=20, pady=(10, 0))
         self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
                                                                command=self.change_scaling_event)
-        self.scaling_optionemenu.grid(row=10, column=0, padx=20, pady=(10, 0))
+        self.scaling_optionemenu.grid(row=9, column=0, padx=20, pady=(10, 0))
 
         # create main entry and button
         # self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
         # self.entry.grid(row=3, column=1, columnspan=2, padx=(20, 0), pady=(20, 20), sticky="nsew")
-
+        self.checkbox_slider_frame = customtkinter.CTkFrame(self)
+        self.checkbox_slider_frame.grid(row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
         
-        self.main_button_2 = customtkinter.CTkButton(master=self, fg_color="transparent", border_width=2, text="Show In Terminal", text_color=("gray10", "#DCE4EE"), command = lambda:showTerm())
-        self.main_button_2.grid(row=4, column=3, padx=(20, 20), pady=(5, 5), sticky="nsew")        
+        self.main_button_2 = customtkinter.CTkButton(master=self.checkbox_slider_frame, fg_color="transparent", border_width=2, text="Show In Terminal", text_color=("gray10", "#DCE4EE"), command = lambda:showTerm())
+        self.main_button_2.grid(row=2, column=0, padx=(20, 20), pady=(25, 5), sticky="nsew")        
 
         # create textbox
         # self.textbox = customtkinter.CTkTextbox(self, width=250)
@@ -514,8 +521,7 @@ class App(customtkinter.CTk):
         # self.radio_button_3.grid(row=3, column=2, pady=10, padx=20, sticky="n")
 
         # create checkbox and switch frame
-        self.checkbox_slider_frame = customtkinter.CTkFrame(self)
-        self.checkbox_slider_frame.grid(row=1, column=3, padx=(20, 20), pady=(20, 0), sticky="nsew")
+        
         self.checkbutton_1 = customtkinter.CTkButton(self.radiobutton_frame, text="Mock Mode", command=lambda:error)
         self.checkbutton_1.grid(row=2, column=2, pady=(20, 10), padx=20, sticky="n")
         # self.checkbox_2 = customtkinter.CTkCheckBox(master=self.checkbox_slider_frame)
