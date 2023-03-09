@@ -121,13 +121,13 @@ def main(datafnlist, redzlist, filtertxt, b2fcsv):
 # fn = "../NGC5813/cigale_input.txt"   ### input
 # np.savetxt(fn, df.values ,fmt='%s', header=" ".join(hdr))
 
-def preprocess(datafnlist, redzlist, filtertxtfn, b2fcsv):
+def preprocess(datafnlist, redzlist, filtertxtfn, b2fcsv, diradr, galaname):
     hdr, datalist = main(datafnlist, redzlist, filtertxtfn, b2fcsv)
     print(f"There are {len(datafnlist)} obj loaded.")
     df = pd.DataFrame(datalist, columns = hdr)
-    df['id'][0] = "NGC5813"
+    df['id'][0] = galaname
     ## save the data into cigale input txtfile
-    fn = "../NGC5813/cigale_input.txt"   ### input
+    fn = diradr + "cigale_input.txt"   ### input
     np.savetxt(fn, df.values ,fmt='%s', header=" ".join(hdr))
 
-# preprocess(["../NGC5813/Test.csv"], ['0.0653'], "./filters.txt", "./bands_to_filter_full_v1.csv")
+# preprocess(["C:/Users/Terry Yin/Desktop/Computing/CIGALE/EssayData/IR/NGC5813/Test6.csv"], ['0.0653'], "C:/Users/Terry Yin/Desktop/Computing/Codes-Py/GUI/CIGALE_attachments/Execution/filters.txt", "Execution/bands_to_filter_full_v1.csv", "C:/Users/Terry Yin/Desktop/Computing/CIGALE/EssayData/IR/NGC5813/", "NGC5813")

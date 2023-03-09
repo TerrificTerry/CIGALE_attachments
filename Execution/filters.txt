@@ -1,14 +1,12 @@
 #filter
 FUV
 NUV
+sdss.up
+sdss.gp
 sdss.rp
 sdss.ip
 sdss.zp
-2mass.J
-2mass.H
-2mass.Ks
 WISE4
 MIPS1
 MIPS2
 MIPS3
-
