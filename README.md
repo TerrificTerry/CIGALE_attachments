@@ -15,4 +15,10 @@ Attachments that make Code Investigating GALactic Emission easier to use
 4 For further information, visit https://cigale.lam.fr.
 
 # Follow-ups
-To avoid any possible conflicts, you should enter *cigale-v2022.1* directory, and enter *database_builder*, and replace the *filter* directory **with the *filter* directory offered in *others* directory from this github directory.**
+To avoid any possible conflicts, you should enter *cigale-v2022.1* directory, and enter *database_builder*, and replace the *filter* directory **with the *filter* directory offered in *others* directory from this github directory.**  
+
+# Further Instructions
+To obtain the data of your target galaxy, visit the [NASA Educational Database (NED)](https://ned.ipac.caltech.edu/), 
+and download the data in the spectrometer tab.  
+
+To obtain the E-BV extinction of your target galaxy, please visit the [NASA/IPAC Infrared Science Archive](https://irsa.ipac.caltech.edu/applications/DUST/).

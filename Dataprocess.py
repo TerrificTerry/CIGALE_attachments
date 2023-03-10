@@ -34,26 +34,28 @@ class App(customtkinter.CTk):
         self.sidebar_button_1 = customtkinter.CTkButton(self.sidebar_frame,text="Select Init File", command=lambda:select_file())
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.sidebar_entry_1 = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="redshift")
-        self.sidebar_entry_1.grid(row=2, column=0, padx=20, pady=10)
+        self.sidebar_entry_1.grid(row=2, column=0, padx=20, pady=5)
         self.sidebar_entry_2 = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="Target (e.g.NGC5813)")
-        self.sidebar_entry_2.grid(row=3, column=0, padx=20, pady=10)
+        self.sidebar_entry_2.grid(row=3, column=0, padx=20, pady=5)
+        self.sidebar_entry_3 = customtkinter.CTkEntry(self.sidebar_frame, placeholder_text="E-BV Extinction")
+        self.sidebar_entry_3.grid(row=4, column=0, padx=20, pady=5)
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Priority:", anchor="w")
-        self.appearance_mode_label.grid(row=4, column=0, padx=20, pady=(10, 0))
+        self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
         self.Priority_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Aperture", "Time"],
                                                                        command=self.change_appearance_mode_event)
-        self.Priority_optionemenu.grid(row=5, column=0, padx=20, pady=(10, 10))
+        self.Priority_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame,text="Start Preprocess", command=lambda:Process(), width= 40, height= 100, fg_color="red", hover = "false")
-        self.sidebar_button_2.grid(row=6, column=0, padx=20, pady=20)
+        self.sidebar_button_2.grid(row=7, column=0, padx=20, pady=20)
         self.scaling_label = customtkinter.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
-        self.scaling_label.grid(row=7, column=0, padx=20, pady=(10, 0))
+        self.scaling_label.grid(row=8, column=0, padx=20, pady=(10, 0))
         self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
                                                                command=self.change_scaling_event)
-        self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(0, 10))
+        self.scaling_optionemenu.grid(row=9, column=0, padx=20, pady=(0, 10))
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:")
-        self.appearance_mode_label.grid(row=9, column=0, padx=20, pady=(0, 0))
+        self.appearance_mode_label.grid(row=10, column=0, padx=20, pady=(0, 0))
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Light", "Dark", "System"],
                                                                        command=self.change_appearance_mode_event)
-        self.appearance_mode_optionemenu.grid(row=10, column=0, padx=20, pady=(0, 10))
+        self.appearance_mode_optionemenu.grid(row=11, column=0, padx=20, pady=(0, 10))
 
         # create main entry and button
         # self.entry = customtkinter.CTkEntry(self, placeholder_text="CTkEntry")
@@ -225,6 +227,18 @@ class App(customtkinter.CTk):
         global diradr
         global dirfile
         global galaname
+        global bandtocorr
+        bandtocorr = []
+        
+        def bandcorr():
+            global bandtocorr
+            cnt = 1
+            print(cnt)
+            while(cnt<=14):
+                if checkboxes[cnt] == 1:
+                    bandtocorr.append(chkbxs[cnt])
+                print(cnt)
+                cnt+=1
         
         def select_file():
             folder_path = filedialog.askopenfilename()
@@ -237,7 +251,7 @@ class App(customtkinter.CTk):
             index = folder_path.rfind("/")
             print(index)
             # If "/" is found in s, slice the string from the beginning to that index
-            diradr = folder_path[:index]
+            diradr = folder_path[:index+1]
             print(diradr)
                         # print(diradr)
         
@@ -261,10 +275,18 @@ class App(customtkinter.CTk):
             print("Preprocessed filter list!")
             galaname = self.sidebar_entry_2.get()
             # listfile = [dirfile]
-            Preprocess.preprocess([dirfile], [self.sidebar_entry_1.get()], "Execution/filters.txt", "Execution/bands_to_filter_full_v1.csv", "C:/Users/Terry Yin/Desktop/Computing/CIGALE/Data/NGC5813/", self.sidebar_entry_2.get())
+            Preprocess.preprocess([dirfile], [self.sidebar_entry_1.get()], "./Execution/filters.txt", "./Execution/bands_to_filter_full_v1.csv", diradr, self.sidebar_entry_2.get())
             print("cigale_input Processed!")
-            Extinctioncorr.extinctioncorr
-
+            
+            bandcorr()
+            print("bandcorr")
+            for filter in bandtocorr:
+                print(filter)
+                
+            # Extinctioncorr.extinctioncorr(galaname, diradr, bandtocorr, self.sidebar_entry_3.get())
+            EBV = float(self.sidebar_entry_3.get())
+            Extinctioncorr.extinctioncorr(galaname, diradr, bandtocorr, EBV)
+            print("cigale_input_corr Processed!")
 
     def open_input_dialog_event(self):
         dialog = customtkinter.CTkInputDialog(text="Type in a number:", title="CTkInputDialog")
