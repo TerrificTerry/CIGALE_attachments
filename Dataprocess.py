@@ -47,7 +47,7 @@ class App(customtkinter.CTk):
         self.sidebar_button_2 = customtkinter.CTkButton(self.sidebar_frame,text="Start Preprocess", command=lambda:Process(), width= 40, height= 100, fg_color="red", hover = "false")
         self.sidebar_button_2.grid(row=7, column=0, padx=20, pady=20)
         self.scaling_label = customtkinter.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
-        self.scaling_label.grid(row=8, column=0, padx=20, pady=(10, 0))
+        self.scaling_label.grid(row=8, column=0, padx=20, pady=(0, 0))
         self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=9, column=0, padx=20, pady=(0, 10))
@@ -153,6 +153,10 @@ class App(customtkinter.CTk):
         self.checkbox_24.grid(row=4, column=2, pady=10, padx=20, sticky="n")
         self.checkbox_25 = customtkinter.CTkButton(master=self.checkbox_slider_frame, text="MIPS3", command= lambda:check(25))
         self.checkbox_25.grid(row=5, column=2, pady=(20, 10), padx=20, sticky="n")
+        
+        self.quitbutton = customtkinter.CTkButton(master=self.checkbox_slider_frame, text = "Quit", command= lambda:quit(), height= 80, fg_color="grey")
+        self.quitbutton.grid(row=6, column=3, pady=(20, 10), padx=20, sticky="n")
+        
         # self.checkbox_26 = customtkinter.CTkButton(master=self.checkbox_slider_frame, text="MODEL")
         # self.checkbox_26.grid(row=6, column=2, pady=10, padx=20, sticky="n")
         # self.checkbox_27 = customtkinter.CTkButton(master=self.checkbox_slider_frame, text="MODEL")

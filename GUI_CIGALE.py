@@ -157,7 +157,6 @@ class App(customtkinter.CTk):
             global diradr;
             global SFHsel, STPsel, NEsel, ATLsel, DEsel, AGNsel
             
-            
             if SFHsel == "sfhdelayed":
                 modi(sfhdelayedtar, sfhdelayed)
             elif SFHsel == "sfh2exp":
@@ -241,6 +240,8 @@ class App(customtkinter.CTk):
         
         self.main_button_2 = customtkinter.CTkButton(master=self.checkbox_slider_frame, fg_color="transparent", border_width=2, text="Show In Terminal", text_color=("gray10", "#DCE4EE"), command = lambda:showTerm())
         self.main_button_2.grid(row=2, column=0, padx=(20, 20), pady=(25, 5), sticky="nsew")        
+        self.main_button_3 = customtkinter.CTkButton(master=self.checkbox_slider_frame, fg_color="transparent", border_width=2, text="Quit", text_color=("gray10", "#DCE4EE"), command = lambda:quit())
+        self.main_button_3.grid(row=3, column=0, padx=(20, 20), pady=(25, 5), sticky="nsew")        
 
         # create textbox
         # self.textbox = customtkinter.CTkTextbox(self, width=250)
